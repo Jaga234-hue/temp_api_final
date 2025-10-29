@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Simple API Test</title>
+</head>
+<body>
+  <h3>Send message to API</h3>
+  <input id="apiUrl" type="text" value="/api" style="width:300px"><br><br>
+  <textarea id="message" rows="4" cols="40">Hello</textarea><br><br>
+  <button id="send">Send</button>
+  <pre id="output"></pre>
+
+  <script>
+    document.getElementById('send').onclick = async () => {
+      const url = document.getElementById('apiUrl').value;
+      const msg = document.getElementById('message').value;
+      document.getElementById('output').textContent = 'Loading...';
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({message: msg})
+        });
+        const data = await res.json();
+        document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        document.getElementById('output').textContent = e;
+      }
+    }
+  </script>
+</body>
+</html>
